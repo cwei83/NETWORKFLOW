@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <limits.h>
-#define num_node 6
+#define num_node 8
 
 typedef struct adlist *adPointer;
 typedef struct adlist {
