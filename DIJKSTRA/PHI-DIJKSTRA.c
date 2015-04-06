@@ -40,13 +40,8 @@ int main() {
 
     fin = fopen("Philadelphia_network.txt", "r");
 
-    while(fscanf(fin, "%d %d %d", &x, &y, &z)) {
+    while(fscanf(fin, "%d %d %d", &x, &y, &z)==3)
 	addList(y, x, z);
-	if(check==0 && x==13389)
-	    check=1;
-	if(check==1)
-	    break;
-    }
 
     fclose(fin);
 
