@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <limits.h>
-#define num_node 8
+#define num_node 6
 
 typedef struct adlist *adPointer;
 typedef struct adlist {
@@ -33,36 +33,15 @@ int main() {
     FILE *fin;
     char input;
     int n=0, i=0, j=1, root=1;
+    int x, y, z;
 
     for(int x=1;x<num_node+1;x++)
 	graph[x]=NULL;
 
     fin = fopen("input.txt", "r");
-    input=fgetc(fin);
 
-    while(1) {
-	if(input<='9'&&input>='0') {
-	    n*=10;
-	    n+=input-'0';
-	}
-	if(input==' ') {
-	    if(n>0)
-		addList(i+1,j,n);
-	    n=0; i++;
-	}
-	if(input=='\n') {
-	    if(n>0) {
-		//printf("i=%d j=%d n=%3d\n", i, j, n);
-		//				printf("\n");
-		addList(i+1,j,n);
-	    }
-	    i++; j++;
-	    if(i==j) 
-		break;
-	    n=0; i=0;
-	}
-	input=fgetc(fin);
-    }
+    while(fscanf(fin, "%d %d %d", &x, &y, &z)==3)
+	addList(y, x, z);
 
     fclose(fin);
 
@@ -162,7 +141,7 @@ void dijkstra(int vertex) {
 		    pre[ptr->vertex]=current_vertex;
 		
 		    temp.vertex = ptr->vertex;
-		    temp.weight = ptr->weight;
+		    temp.weight = distance[ptr->vertex];
 		    push(temp);
 		}
     }

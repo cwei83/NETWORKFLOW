@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
-#define num_node 10
+#define num_node 4
 
 typedef struct adlist *adPointer;
 typedef struct adlist {
@@ -31,45 +31,15 @@ queuePointer front, rear;
 int main() {
 
     FILE *fin;
-    char input;
-    int n=0, i=0, j=1, root=1, check=0;
+    int x, y, z;
 
     for(int x=1;x<num_node+1;x++)
 	graph[x]=NULL;
 
     fin = fopen("input.txt", "r");
-    input=fgetc(fin);
 
-    while(1) {
-	if(input<='9'&&input>='0') {
-	    n*=10;
-	    n+=input-'0';
-	}
-	if(input==' ') {
-	    if(check==1)
-		n*=-1;
-	    if(n!=0) { 
-		addList(i+1,j,n);
-		//printf("i=%d j=%d n=%d\n", i+1, j , n);
-	    }
-	    n=0; i++; check=0;
-	}
-	if(input=='\n') {
-	    if(check==1)
-		n*=-1;
-	    if(n!=0) {
-		addList(i+1,j,n);
-		//printf("i=%d j=%d n=%d\n", i+1, j , n);
-	    }
-	    i++; j++;
-	    if(i==j)
-		break;
-	    n=0; i=0; check=0;
-	}
-	if(input=='-') 
-	    check=1;
-	input=fgetc(fin);
-    }
+    while(fscanf(fin, "%d %d %d", &x, &y, &z)==3)
+	addList(y, x, z);
 
     fclose(fin);
 
@@ -149,32 +119,20 @@ void shortestpath(int vertex) {
 
     while(front) {
 	current_vertex = deleteq();
-	//s[current_vertex] = -1;
-	//printf("s[%d] = %d\n", current_vertex, s[current_vertex]);
 	write(pre, dis, s);
 	for(ptr=graph[current_vertex];ptr;ptr=ptr->link) {
-	    //if(s[ptr->vertex]==0) {
 		if(dis[current_vertex]+ptr->weight<dis[ptr->vertex]) {
 		    dis[ptr->vertex]=dis[current_vertex]+ptr->weight;
 		    pre[ptr->vertex]=current_vertex;
-		    //printf("dis[%d]=%d dis[%d]=%d\n", current_vertex, dis[current_vertex], ptr->vertex, dis[ptr->vertex]);
-		    //printf("dis[%d]+%d<dis[%d]\n", current_vertex, ptr->weight, ptr->vertex);
 	   	 }
 		addq(ptr->vertex);
-	    //}
-	    //else {
 	    if(s[ptr->vertex]==-1) {
 		dq(ptr->vertex);
 		s[ptr->vertex] = 0;
 	    }
 	}
 	s[current_vertex] = -1;
-
     }
-
-    //for (int i = 1; i < num_node+1; i++) {
-    	//printf("dis[%d] = %d\n", i, dis[i]);
-    //}
 }
 
 void write(int pre[], int dis[], int s[]) {
