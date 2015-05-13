@@ -225,6 +225,8 @@ void ssp(int start, int end, int flow) {
 
     while(dijkstra_head) {
 
+	min_flow=0;
+
 	//UPDATE COST PI
 	for(int i=1;i<num_node+1;i++)
 	    for(adPointer temp=graph[i];temp;temp=temp->link)
@@ -252,6 +254,10 @@ void ssp(int start, int end, int flow) {
 	    if(dijkstra_start == end)
 		break;
 	}
+	
+	if(max_flow+min_flow>flow)
+	    min_flow = flow-max_flow;
+
 	printf("%d FLOW=%d\n", dijkstra_start, min_flow);
 
 	//CALCULATE MAX_FLOW
@@ -275,6 +281,8 @@ void ssp(int start, int end, int flow) {
 	    if(dijkstra_start==end)
 		break;
 	}
+
+	printf("maxflow = %d\n", max_flow);
 
 	if(max_flow>=flow)
 	    break;
